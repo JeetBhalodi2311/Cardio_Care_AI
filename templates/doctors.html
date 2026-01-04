@@ -1,0 +1,280 @@
+{% extends "base.html" %}
+
+{% block title %}Cardiovascular Specialists | CardioCare{% endblock %}
+
+{% block content %}
+<style>
+    .doctors-hero {
+        padding: 4rem 1rem 3rem;
+        text-align: center;
+        background: linear-gradient(rgba(241, 245, 249, 0.9), rgba(241, 245, 249, 0.9)), url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=2000');
+        background-size: cover;
+        background-position: center;
+    }
+
+    .doctors-hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #1e293b, #334155);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .doctors-grid {
+        max-width: 1200px;
+        margin: -2rem auto 4rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 0 1rem;
+    }
+
+    .doctor-card {
+        background: #fff;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s, box-shadow 0.3s;
+        border: 1px solid #f1f5f9;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .doctor-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.1);
+    }
+
+    .doctor-image {
+        height: 250px;
+        background-size: cover;
+        background-position: top center;
+        position: relative;
+    }
+
+    .doctor-image::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 40%;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.4));
+    }
+
+    .doctor-info {
+        padding: 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .doctor-name {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 0.25rem;
+    }
+
+    .doctor-spec {
+        color: #6366f1;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 1rem;
+    }
+
+    .doctor-meta {
+        font-size: 0.85rem;
+        color: #64748b;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .doctor-meta i {
+        color: #94a3b8;
+    }
+
+    .doctor-actions {
+        margin-top: auto;
+        padding-top: 1.5rem;
+    }
+
+    .btn-book {
+        display: block;
+        width: 100%;
+        padding: 0.8rem;
+        background: #0f172a;
+        color: #fff;
+        text-align: center;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: background 0.2s;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-book:hover {
+        background: #1e293b;
+    }
+
+    /* Modal Styling */
+    .booking-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.7);
+        backdrop-filter: blur(4px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+    }
+
+    .booking-modal-box {
+        background: #fff;
+        padding: 2.5rem;
+        border-radius: 24px;
+        max-width: 400px;
+        text-align: center;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    .success-icon {
+        width: 60px;
+        height: 60px;
+        background: #dcfce7;
+        color: #16a34a;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin: 0 auto 1.5rem;
+    }
+</style>
+
+<div class="doctors-hero">
+    <h1>Top Specialists</h1>
+    <p>Connected with elite cardiovascular experts worldwide.</p>
+</div>
+
+<div class="doctors-grid">
+    <!-- Dr. 1 -->
+    <div class="doctor-card">
+        <div class="doctor-image"
+            style="background-image: url('https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&q=80&w=600');">
+        </div>
+        <div class="doctor-info">
+            <h3 class="doctor-name">Dr. Sarah Jenkins</h3>
+            <span class="doctor-spec">Senior Cardiologist</span>
+            <div class="doctor-meta"><i class="fas fa-hospital"></i> Mayo Clinic, MN</div>
+            <div class="doctor-meta"><i class="fas fa-star"></i> 4.9 (120 reviews)</div>
+            <div class="doctor-actions">
+                <button class="btn-book" onclick="showBooking()">Book Appointment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dr. 2 -->
+    <div class="doctor-card">
+        <div class="doctor-image"
+            style="background-image: url('https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=600');">
+        </div>
+        <div class="doctor-info">
+            <h3 class="doctor-name">Dr. Michael Chen</h3>
+            <span class="doctor-spec">Interventional Cardiologist</span>
+            <div class="doctor-meta"><i class="fas fa-hospital"></i> Stanford Health, CA</div>
+            <div class="doctor-meta"><i class="fas fa-star"></i> 4.8 (95 reviews)</div>
+            <div class="doctor-actions">
+                <button class="btn-book" onclick="showBooking()">Book Appointment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dr. 3 -->
+    <div class="doctor-card">
+        <div class="doctor-image"
+            style="background-image: url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=600');">
+        </div>
+        <div class="doctor-info">
+            <h3 class="doctor-name">Dr. Elena Rodriguez</h3>
+            <span class="doctor-spec">Cardiac Surgeon</span>
+            <div class="doctor-meta"><i class="fas fa-hospital"></i> Cleveland Clinic, OH</div>
+            <div class="doctor-meta"><i class="fas fa-star"></i> 5.0 (150 reviews)</div>
+            <div class="doctor-actions">
+                <button class="btn-book" onclick="showBooking()">Book Appointment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dr. 4 -->
+    <div class="doctor-card">
+        <div class="doctor-image"
+            style="background-image: url('https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80&w=600');">
+        </div>
+        <div class="doctor-info">
+            <h3 class="doctor-name">Dr. James Wilson</h3>
+            <span class="doctor-spec">Electrophysiologist</span>
+            <div class="doctor-meta"><i class="fas fa-hospital"></i> Johns Hopkins, MD</div>
+            <div class="doctor-meta"><i class="fas fa-star"></i> 4.7 (88 reviews)</div>
+            <div class="doctor-actions">
+                <button class="btn-book" onclick="showBooking()">Book Appointment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dr. 5 -->
+    <div class="doctor-card">
+        <div class="doctor-image"
+            style="background-image: url('https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=600');">
+        </div>
+        <div class="doctor-info">
+            <h3 class="doctor-name">Dr. Aisha Khan</h3>
+            <span class="doctor-spec">Preventive Cardiologist</span>
+            <div class="doctor-meta"><i class="fas fa-hospital"></i> Mount Sinai, NY</div>
+            <div class="doctor-meta"><i class="fas fa-star"></i> 4.9 (110 reviews)</div>
+            <div class="doctor-actions">
+                <button class="btn-book" onclick="showBooking()">Book Appointment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dr. 6 -->
+    <div class="doctor-card">
+        <div class="doctor-image"
+            style="background-image: url('https://images.unsplash.com/photo-1614608682850-e0d6ed316d47?auto=format&fit=crop&q=80&w=600');">
+        </div>
+        <div class="doctor-info">
+            <h3 class="doctor-name">Dr. Robert Lee</h3>
+            <span class="doctor-spec">Heart Failure Specialist</span>
+            <div class="doctor-meta"><i class="fas fa-hospital"></i> Cedars-Sinai, CA</div>
+            <div class="doctor-meta"><i class="fas fa-star"></i> 4.8 (76 reviews)</div>
+            <div class="doctor-actions">
+                <button class="btn-book" onclick="showBooking()">Book Appointment</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="bookingModal" class="booking-modal">
+    <div class="booking-modal-box">
+        <div class="success-icon"><i class="fas fa-check"></i></div>
+        <h2 style="margin-bottom: 0.5rem;">Request Sent!</h2>
+        <p style="color: #64748b; margin-bottom: 1.5rem;">The clinic will contact you shortly to confirm your slot.</p>
+        <button class="btn-book" onclick="hideBooking()">Great, Understood</button>
+    </div>
+</div>
+
+<script>
+    function showBooking() {
+        document.getElementById('bookingModal').style.display = 'flex';
+    }
+    function hideBooking() {
+        document.getElementById('bookingModal').style.display = 'none';
+    }
+</script>
+
+{% endblock %}

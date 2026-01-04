@@ -1,0 +1,648 @@
+{% extends "base.html" %}
+
+{% block title %}CardioCare AI - The Future of Heart Health{% endblock %}
+
+{% block content %}
+
+<style>
+    :root {
+        --primary: #4f46e5;
+        --primary-soft: #eef2ff;
+        --primary-deep: #312e81;
+        --secondary: #0f172a;
+        --accent: #f97316;
+        --violet: #7c3aed;
+        --text-main: #0f172a;
+        --text-muted: #6b7280;
+        --surface: #ffffff;
+        --surface-soft: #f9fafb;
+        --border-subtle: #e5e7eb;
+        --shadow-lg: 0 24px 60px rgba(15, 23, 42, 0.18);
+        --shadow-soft: 0 12px 30px rgba(15, 23, 42, 0.08);
+        --primary-glow: rgba(79, 70, 229, 0.45);
+        --secondary-glow: rgba(14, 116, 144, 0.4);
+        --accent-glow: rgba(244, 63, 94, 0.35);
+    }
+
+    body {
+        background: radial-gradient(circle at top, #eef2ff 0, #e5f4ff 30%, #f9fafb 70%);
+        color: var(--text-main);
+        font-family: 'Inter', sans-serif;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translate(0, 0); }
+        50% { transform: translate(20px, -20px); }
+    }
+
+    .page-shell {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .bg-orbit {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    .bg-orbit__blob {
+        position: absolute;
+        border-radius: 999px;
+        filter: blur(80px);
+        opacity: 0.8;
+    }
+
+    /* Hero */
+    .hero {
+        padding: 5rem 0 4rem;
+    }
+
+    .hero-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+        gap: 3rem;
+        align-items: center;
+    }
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 1.3rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.85);
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--violet);
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+        backdrop-filter: blur(8px);
+        margin-bottom: 1.8rem;
+    }
+
+    .hero-title {
+        font-family: 'Poppins', sans-serif;
+        font-size: 2.8rem;
+        line-height: 1.15;
+        letter-spacing: -0.04em;
+        margin-bottom: 1.2rem;
+        color: var(--secondary);
+    }
+
+    .hero-title span {
+        background: linear-gradient(120deg, var(--primary), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sub {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        max-width: 540px;
+        margin-bottom: 2.3rem;
+        line-height: 1.8;
+    }
+
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        margin-bottom: 1.7rem;
+    }
+
+    .btn-main {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        padding: 0.85rem 1.9rem;
+        border-radius: 999px;
+        border: none;
+        background: linear-gradient(135deg, var(--primary), var(--primary-deep));
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.97rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        box-shadow: var(--shadow-lg);
+        transition: all 0.2s ease;
+        text-decoration: none;
+    }
+
+    .btn-main:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 26px 60px rgba(15, 23, 42, 0.22);
+    }
+
+    .btn-main i {
+        font-size: 1rem;
+    }
+
+    .btn-outline {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.8rem 1.7rem;
+        border-radius: 999px;
+        border: 1px solid rgba(15, 23, 42, 0.12);
+        background: rgba(255, 255, 255, 0.7);
+        color: var(--text-main);
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
+        text-decoration: none;
+    }
+
+    .btn-outline:hover {
+        background: #fff;
+        box-shadow: var(--shadow-soft);
+        transform: translateY(-1px);
+    }
+
+    .hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.3rem;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+    }
+
+    .hero-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .hero-meta i {
+        color: var(--primary);
+    }
+
+    /* Hero Side Panel */
+    .hero-panel {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 24px;
+        padding: 1.8rem 1.8rem 1.7rem;
+        border: 1px solid rgba(226, 232, 240, 0.9);
+        box-shadow: var(--shadow-lg);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at top right, rgba(79, 70, 229, 0.12), transparent 55%);
+    }
+
+    .hero-panel-header {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.2rem;
+    }
+
+    .hero-panel-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+    }
+
+    .hero-panel-chip {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.7rem;
+        border-radius: 999px;
+        background: rgba(22, 163, 74, 0.06);
+        color: #16a34a;
+        border: 1px solid rgba(34, 197, 94, 0.4);
+    }
+
+    .hero-panel-main {
+        position: relative;
+        padding-top: 0.5rem;
+    }
+
+    .hero-panel-stat {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.4rem;
+    }
+
+    .hero-panel-stat h3 {
+        margin: 0;
+        font-size: 2.1rem;
+        font-weight: 700;
+        font-family: 'Poppins', sans-serif;
+        color: var(--secondary);
+    }
+
+    .hero-panel-stat span {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+    }
+
+    .hero-panel-bars {
+        display: flex;
+        gap: 0.6rem;
+        margin-bottom: 1.3rem;
+    }
+
+    .hero-bar {
+        flex: 1;
+        height: 4px;
+        border-radius: 999px;
+        background: #e5e7eb;
+        overflow: hidden;
+    }
+
+    .hero-bar-fill {
+        height: 100%;
+        width: 70%;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+
+    .hero-mini-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.9rem;
+        font-size: 0.8rem;
+    }
+
+    .hero-mini-card {
+        padding: 0.7rem 0.8rem;
+        border-radius: 12px;
+        background: rgba(248, 250, 252, 0.9);
+        border: 1px solid rgba(226, 232, 240, 0.9);
+    }
+
+    .hero-mini-label {
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 600;
+        color: var(--text-muted);
+        font-size: 0.7rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .hero-mini-value {
+        font-weight: 600;
+        color: var(--secondary);
+    }
+
+    /* Features */
+    .features {
+        padding: 4.5rem 0 4rem;
+    }
+
+    .features-header {
+        max-width: 720px;
+        margin: 0 auto 3.5rem;
+        text-align: center;
+    }
+
+    .features-title {
+        font-size: 2.2rem;
+        font-family: 'Poppins', sans-serif;
+        margin-bottom: 0.8rem;
+    }
+
+    .features-title span {
+        color: var(--primary);
+    }
+
+    .features-sub {
+        font-size: 1rem;
+        color: var(--text-muted);
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 2rem;
+    }
+
+    .feature-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 1.8rem 1.8rem 1.7rem;
+        border: 1px solid var(--border-subtle);
+        box-shadow: var(--shadow-soft);
+        transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+        border-color: rgba(79, 70, 229, 0.25);
+    }
+
+    .feature-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        font-size: 1.25rem;
+    }
+
+    .feature-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .feature-card p {
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        margin: 0;
+    }
+
+    /* CTA */
+    .cta-section {
+        padding: 5rem 0;
+        background: #f8fafc;
+    }
+
+    .cta-card {
+        max-width: 980px;
+        margin: 0 auto;
+        border-radius: 26px;
+        padding: 3.5rem 3rem;
+        background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), transparent 55%),
+                    radial-gradient(circle at bottom right, rgba(79, 70, 229, 0.25), #020617);
+        color: #e5e7eb;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .cta-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(to bottom right, rgba(15, 23, 42, 0.1), rgba(15, 23, 42, 0.7));
+        mix-blend-mode: overlay;
+    }
+
+    .cta-inner {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+    }
+
+    .cta-title {
+        font-size: 2.1rem;
+        margin-bottom: 1rem;
+        font-family: 'Poppins', sans-serif;
+        color: #f9fafb;
+    }
+
+    .cta-text {
+        font-size: 1.05rem;
+        color: #cbd5f5;
+        max-width: 540px;
+        margin: 0 auto 2.2rem;
+    }
+
+    .cta-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.9rem 2.4rem;
+        border-radius: 999px;
+        background: #f9fafb;
+        color: #020617;
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-decoration: none;
+        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.35);
+        transition: all 0.18s ease;
+    }
+
+    .cta-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 22px 60px rgba(15, 23, 42, 0.55);
+    }
+
+    /* Disclaimer */
+    .disclaimer {
+        padding: 2rem 0 2.5rem;
+        background: #ffffff;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    .disclaimer p {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        max-width: 820px;
+        margin: 0 auto;
+        text-align: center;
+        line-height: 1.6;
+    }
+
+    @media (max-width: 991.98px) {
+        .hero-inner {
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+        }
+        .hero-panel {
+            max-width: 420px;
+            margin: 0 auto;
+        }
+        .hero-title {
+            font-size: 2.4rem;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .hero {
+            padding-top: 4rem;
+        }
+        .hero-title {
+            font-size: 2rem;
+        }
+        .cta-card {
+            padding: 2.8rem 1.7rem;
+        }
+    }
+</style>
+
+<div class="page-shell">
+
+    <!-- Background glows -->
+    <div class="bg-orbit">
+        <div class="bg-orbit__blob" style="top:-12%; left:-15%; width:45%; height:45%; background:radial-gradient(circle, var(--primary-glow), transparent 70%); animation: float 10s infinite ease-in-out;"></div>
+        <div class="bg-orbit__blob" style="bottom:5%; right:-10%; width:40%; height:40%; background:radial-gradient(circle, var(--secondary-glow), transparent 70%); animation: float 16s infinite ease-in-out reverse;"></div>
+        <div class="bg-orbit__blob" style="top:40%; left:40%; width:30%; height:30%; background:radial-gradient(circle, var(--accent-glow), transparent 70%); animation: float 13s infinite ease-in-out;"></div>
+    </div>
+
+    <!-- HERO -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-inner">
+                <div>
+                    <div class="hero-badge">
+                        <span>✨ AI-Powered • Precise • Secure</span>
+                    </div>
+
+                    <h1 class="hero-title">
+                        Your Heart Health,<br>
+                        <span>Reimagined by AI.</span>
+                    </h1>
+
+                    <p class="hero-sub">
+                        Advanced machine learning analyzes your vitals continuously to flag potential cardiovascular risks before they become critical.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a href="{{ url_for('predict_ui') }}" class="btn-main">
+                            Start Assessment
+                            <i class="fas fa-heart-pulse"></i>
+                        </a>
+                        <a href="{{ url_for('about') }}" class="btn-outline">
+                            Learn More
+                        </a>
+                    </div>
+
+                    <div class="hero-meta">
+                        <span><i class="fas fa-shield-alt"></i> HIPAA-grade encryption</span>
+                        <span><i class="fas fa-wave-square"></i> Real-time inference engine</span>
+                        <span><i class="fas fa-user-md"></i> Built with clinical guidance</span>
+                    </div>
+                </div>
+
+                <!-- Right visual / no logic -->
+                <aside class="hero-panel" aria-hidden="true">
+                    <div class="hero-panel-header">
+                        <div class="hero-panel-title">CardioCare AI Console</div>
+                        <span class="hero-panel-chip">Live · Stable v2.0</span>
+                    </div>
+                    <div class="hero-panel-main">
+                        <div class="hero-panel-stat">
+                            <div>
+                                <span style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--text-muted);">Current risk estimate</span>
+                                <h3>Low · 3.2%</h3>
+                            </div>
+                            <span>Simulated preview</span>
+                        </div>
+
+                        <div class="hero-panel-bars">
+                            <div class="hero-bar">
+                                <div class="hero-bar-fill"></div>
+                            </div>
+                            <div class="hero-bar">
+                                <div class="hero-bar-fill" style="width:45%;"></div>
+                            </div>
+                            <div class="hero-bar">
+                                <div class="hero-bar-fill" style="width:25%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="hero-mini-grid">
+                            <div class="hero-mini-card">
+                                <div class="hero-mini-label">Scans processed</div>
+                                <div class="hero-mini-value">10k+ sessions</div>
+                            </div>
+                            <div class="hero-mini-card">
+                                <div class="hero-mini-label">Latency</div>
+                                <div class="hero-mini-value">&lt; 150 ms</div>
+                            </div>
+                            <div class="hero-mini-card">
+                                <div class="hero-mini-label">Engine</div>
+                                <div class="hero-mini-value">Ensemble ML</div>
+                            </div>
+                            <div class="hero-mini-card">
+                                <div class="hero-mini-label">Mode</div>
+                                <div class="hero-mini-value">Preventive care</div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="features-header">
+                <h2 class="features-title">Why <span>CardioCare?</span></h2>
+                <p class="features-sub">
+                    A carefully crafted blend of intelligent models, secure infrastructure, and clinician-centric design to support proactive heart care.
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <article class="feature-card">
+                    <div class="feature-icon" style="background:rgba(79, 70, 229, 0.08); color:var(--primary);">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Deep Intelligence</h3>
+                    <p>
+                        Neural networks capture complex, non-linear patterns in your health data that traditional scoring systems often miss.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon" style="background:rgba(14, 165, 233,0.08); color:#0ea5e9;">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Instant Insights</h3>
+                    <p>
+                        Get a risk perspective in milliseconds, enabling timely conversations with your physician rather than delayed follow-ups.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon" style="background:rgba(34, 197, 94,0.08); color:#22c55e;">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Bank-Grade Security</h3>
+                    <p>
+                        Data flows are secured with strong encryption and privacy-first design, keeping sensitive health information protected.
+                    </p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-card">
+                <div class="cta-inner">
+                    <h2 class="cta-title">Ready to take control?</h2>
+                    <p class="cta-text">
+                        Join thousands of users who rely on CardioCare AI as a companion for preventative heart risk assessment and early conversations with their clinicians.
+                    </p>
+                    <a href="{{ url_for('predict_ui') }}" class="cta-btn">
+                        Start Your Free Assessment
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DISCLAIMER -->
+    <section class="disclaimer">
+        <div class="container">
+            <p>
+                <strong>DISCLAIMER:</strong> CardioCare AI is intended for informational and educational use only. It does not provide medical diagnosis or treatment. Always consult a qualified healthcare professional for medical advice about any symptoms or conditions.
+            </p>
+        </div>
+    </section>
+</div>
+
+{% endblock %}
