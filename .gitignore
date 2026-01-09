@@ -1,0 +1,15 @@
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv/
+env/
+venv/
+*.log
+.vscode/
+.idea/
+Cardio_cleaned.csv
+Final_Clean_Cardio.csv
+cardio_train.csv

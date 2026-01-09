@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block title %}ML Model Accuracy Comparison - CardioCare AI{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --bg: #f8fafc;
+        --card: #ffffff;
+        --primary-blue: #2563eb;
+        --success: #16a34a;
+        --text: #0f172a;
+        --muted: #64748b;
+        --border: #e5e7eb;
+    }
+
+    .accuracy-section {
+        background: var(--bg);
+        color: var(--text);
+        padding: 40px 24px;
+    }
+
+    .accuracy-container {
+        max-width: 1200px;
+        margin: auto;
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 32px;
+    }
+
+    .header h1 {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--primary-blue);
+    }
+
+    .header p {
+        margin-top: 8px;
+        color: var(--muted);
+    }
+
+    .card {
+        background: var(--card);
+        border-radius: 14px;
+        padding: 24px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        border: 1px solid var(--border);
+    }
+
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        min-width: 950px;
+        border-collapse: collapse;
+    }
+
+    thead {
+        background: linear-gradient(90deg, #2563eb, #3b82f6);
+    }
+
+    th {
+        padding: 14px 16px;
+        text-align: left;
+        color: #ffffff;
+        font-size: 0.95rem;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    td {
+        padding: 14px 16px;
+        font-size: 0.9rem;
+        border-bottom: 1px solid var(--border);
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+
+    tbody tr:hover {
+        background: rgba(37, 99, 235, 0.05);
+    }
+
+    .best {
+        color: var(--success);
+        font-weight: 700;
+    }
+
+    .params {
+        font-family: 'Fira Code', monospace;
+        font-size: 0.82rem;
+        color: #334155;
+        max-width: 260px;
+        white-space: normal;
+        word-break: break-word;
+        background: #f1f5f9;
+        padding: 4px 8px;
+        border-radius: 4px;
+    }
+
+    @media (max-width: 768px) {
+        .accuracy-section {
+            padding: 24px 16px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+        }
+
+        th,
+        td {
+            padding: 10px 12px;
+            font-size: 0.85rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="accuracy-section">
+    <div class="accuracy-container">
+
+        <div class="header">
+            <h1>ML Model Accuracy Comparison</h1>
+            <p>Baseline, K-Fold Cross Validation & Hyperparameter Tuning Results</p>
+        </div>
+
+        <div class="card">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Train–Test Accuracy (Baseline)</th>
+                            <th>K-Fold CV Accuracy</th>
+                            <th>Tuned CV Accuracy</th>
+                            <th>Tuned Test Accuracy</th>
+                            <th>Best Parameters</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Gradient Boosting</strong></td>
+                            <td>0.736141</td>
+                            <td>0.733787</td>
+                            <td>0.734044</td>
+                            <td class="best">0.735189</td>
+                            <td>
+                                <div class="params">{'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 200}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Random Forest</td>
+                            <td>0.707140</td>
+                            <td>0.706891</td>
+                            <td>0.732689</td>
+                            <td>0.734383</td>
+                            <td>
+                                <div class="params">{'max_depth': 10, 'min_samples_split': 2, 'n_estimators': 200}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Decision Tree</td>
+                            <td>0.635518</td>
+                            <td>0.636933</td>
+                            <td>0.727819</td>
+                            <td>0.729916</td>
+                            <td>
+                                <div class="params">{'max_depth': 5, 'min_samples_split': 2}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Logistic Regression</td>
+                            <td>0.728891</td>
+                            <td>0.726903</td>
+                            <td>0.727013</td>
+                            <td>0.728891</td>
+                            <td>
+                                <div class="params">{'C': 10, 'solver': 'lbfgs'}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>K-Nearest Neighbors</td>
+                            <td>0.694251</td>
+                            <td>0.697114</td>
+                            <td>0.712695</td>
+                            <td>0.709703</td>
+                            <td>
+                                <div class="params">{'knn__n_neighbors': 9, 'knn__weights': 'uniform'}</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

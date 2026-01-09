@@ -1,0 +1,1 @@
+[{"Model":"Logistic Regression","Accuracy":0.7179542203},{"Model":"Decision Tree","Accuracy":0.6343347639},{"Model":"Random Forest","Accuracy":0.7115164521},{"Model":"SVC","Accuracy":0.6304005722},{"Model":"K-Nearest Neighbors","Accuracy":0.6073676681},{"Model":"Gradient Boosting","Accuracy":0.7315450644},{"Model":"Gaussian Naive Bayes","Accuracy":0.5994992847}]
