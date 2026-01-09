@@ -58,13 +58,10 @@ def predict_ui():
 def doctors():
     return render_template('doctors.html')
 
-<<<<<<< HEAD
-=======
 @app.route('/accuracy')
 def accuracy():
     return render_template('accuracy.html')
 
->>>>>>> c0e57b1 (Add Accuracy Filee)
 def calculate_heart_age(chronological_age, systolic, diastolic, weight, height, cholesterol, gluc, smoke, active):
     heart_age = chronological_age
     
@@ -493,19 +490,11 @@ def chat():
 
     return jsonify({'response': response})
 
-<<<<<<< HEAD
-# if __name__ == '__main__':
-#     app.run(debug=True, port=8080)
+# <<<<<<< HEAD
+# # if __name__ == '__main__':
+# #     app.run(debug=True, port=8080)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
 
-=======
-if __name__ == '__main__':
-    app.run(debug=True, port=8080)
-
-# if __name__ == "__main__":
-#     port = int(os.environ.get("PORT", 5000))
-#     app.run(host="0.0.0.0", port=port)
->>>>>>> c0e57b1 (Add Accuracy Filee)
